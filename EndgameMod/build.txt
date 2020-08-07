@@ -1,3 +1,0 @@
-displayName = Avengers Endgame Mod
-author = Mello and Leapofod
-version = 0.1
