@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "hIIAAZ3p9olHUcb84cdC2hgAJ/NSP/pcytYgbneiMz0xdHPH5ExGGWIR5FGxhLj7GLF8dBt6mfEI93A/Aa3uGQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\moham\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\moham\\.nuget\\packages\\tmodloader.codeassist\\0.1.1\\tmodloader.codeassist.0.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}
