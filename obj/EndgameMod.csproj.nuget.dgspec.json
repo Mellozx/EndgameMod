@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\moham\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj": {}
+    "C:\\Users\\DELL\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj": {}
   },
   "projects": {
-    "C:\\Users\\moham\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj": {
+    "C:\\Users\\DELL\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\moham\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj",
         "projectName": "EndgameMod",
-        "projectPath": "C:\\Users\\moham\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj",
-        "packagesPath": "C:\\Users\\moham\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\moham\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\EndgameMod.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EndgameMod\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\moham\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net45"
@@ -43,7 +48,7 @@
               "version": "[0.1.*, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
