@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,17 +20,13 @@ namespace EndgameMod.Items.InfinityGauntlet
 		private MouseState newMouseState;
 		private bool rightMouseDown;
 
-		public override bool CloneNewInstances
-		{
-			get { return true; }
-		}
 
+		public override bool CloneNewInstances => true;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infinity Gauntlet");
-			Tooltip.SetDefault("");
-
+			Tooltip.SetDefault("The power of the universe in the palm of your hand.");
 		}
 
 		public override void SetDefaults()
@@ -75,9 +69,8 @@ namespace EndgameMod.Items.InfinityGauntlet
 			// Mode switcher
 			if (player.altFunctionUse == 2)
 			{
-				if (rightMouseDown) return false;
-
-
+				if (rightMouseDown) return false;				
+				
 				item.mana = 0;
 				GauntletMode++;
 				GauntletMode %= 7;
@@ -88,7 +81,7 @@ namespace EndgameMod.Items.InfinityGauntlet
 				{
 					case 0:
 						text = "Power";
-
+						
 						item.useTime = 8;
 						item.useAnimation = 16;
 						break;
@@ -130,7 +123,7 @@ namespace EndgameMod.Items.InfinityGauntlet
 					default:
 						return true;
 				}
-				Main.NewText(text, Color.White.R, Color.White.G, Color.White.B);
+				Main.NewText(text, 0xFF, 0xFF, 0xFF);
 			}
 			else
 			{
@@ -153,43 +146,41 @@ namespace EndgameMod.Items.InfinityGauntlet
 			return true;
 		}
 
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			string baseTooltip = "The Power of the Infinity Stones in One Gauntlet \n";
-
-			string text = "";
+			string baseTooltip = "The Power of the Universe in the palm of your hand \n";
+			string text;
 			switch (GauntletMode)
 			{
 				case 0:
-					text = "Power: Your Power? its infinite.";
+					text = "<<Power>> Your Power? it's Infinite.";
 					break;
 				case 1:
-					text = "Space: All that roams in Space is yours All that roams in Space is yours";
+					text = "<<Space>> All that roams in Space is yours.";
 					break;
 				case 2:
-					text = "Reality: Reality is yours reshape it however you want";
+					text = "<<Reality>> Reality is yours to reshape.";
 					break;
 				case 3:
-					text = "Soul: A Soul For a Soul";
+					text = "<<Soul>> A Soul for a Soul.";
 					break;
 				case 4:
-					text = "Time: The Future? The Past? The Current? You have control over all";
+					text = "<<Time>> The Future? The Past? The Present? You have control over all of them.";
 					break;
 				case 5:
-					text = "Mind: Your Knowledge knows no limits";
+					text = "<<Mind>> Your Knowledge knows no limits.";
+					break;
+				case 6:
+					text = "<<Judgement>> The lives in the universe is yours to judge.";
+					break;
+				default:
+					text = "";
 					break;
 			}
-			foreach (TooltipLine line2 in tooltips)
-			{
-				if (line2.mod == "Terraria" && line2.Name.StartsWith("Tooltip"))
-				{
-					line2.text = baseTooltip + text;
-				}
-			}
+			foreach (TooltipLine line in tooltips)
+			{ if (line.mod == "Terraria" && line.Name.StartsWith("Tooltip")) { line.text = $"{baseTooltip}{text}"; } }
 		}
-
-
-
 
 
 
