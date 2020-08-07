@@ -1,4 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,17 +13,26 @@ namespace EndgameMod.Items.InfinityGauntlet
 {
 	public class InfinityGauntlet : ModItem
 	{
-
 		public int GauntletMode = 0;
 		public int pushTimer = 0;
 		public int MellosMultiuse = 0;
 
 
+		private MouseState oldMouseState;
+		private MouseState newMouseState;
+		private bool rightMouseDown;
+
+		public override bool CloneNewInstances
+		{
+			get { return true; }
+		}
+
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infinity Gauntlet");
-			Tooltip.SetDefault("This weapon is not to be wielded from the weak");
+			Tooltip.SetDefault("");
+
 		}
 
 		public override void SetDefaults()
@@ -29,7 +43,7 @@ namespace EndgameMod.Items.InfinityGauntlet
 			item.height = 40;
 			item.useTime = 20;
 			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.knockBack = 6;
 			item.value = 10000;
 			item.rare = ItemRarityID.Green;
@@ -41,23 +55,35 @@ namespace EndgameMod.Items.InfinityGauntlet
 
 
 
-		public override bool AltFunctionUse(Player player)
+		public override bool AltFunctionUse(Player player) => true;
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			return true;
+			return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
 		}
 
-		public override bool CanUseItem(Player player) 
+		public override void HoldItem(Player player)
 		{
-			if (player.altFunctionUse == 2) // NEEDS TO BE SLOWED DOWN
+			oldMouseState = newMouseState;
+			newMouseState = Mouse.GetState();
+			rightMouseDown = oldMouseState.RightButton == ButtonState.Pressed && newMouseState.RightButton == ButtonState.Pressed;
+			base.HoldItem(player);
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			// Mode switcher
+			if (player.altFunctionUse == 2)
 			{
+				if (rightMouseDown) return false;
+
+
 				item.mana = 0;
 				GauntletMode++;
-				if (GauntletMode >= 6)
-				{
-					GauntletMode = 0;
-				}
+				GauntletMode %= 7;
+
 				Main.PlaySound(SoundLoader.customSoundType, -1, -1, mod.GetSoundSlot(SoundType.Custom, "Sounds/InfinityStoneSound"));
-				string text = "";
+				string text;
 				switch (GauntletMode)
 				{
 					case 0:
@@ -96,13 +122,17 @@ namespace EndgameMod.Items.InfinityGauntlet
 						item.useTime = 8;
 						item.useAnimation = 16;
 						break;
+					case 6:
+						text = "Snap";
+
+						// change use time later when all else is put into place.
+						break;
 					default:
-						return base.CanUseItem(player);
+						return true;
 				}
 				Main.NewText(text, Color.White.R, Color.White.G, Color.White.B);
 			}
-
-			else // this code is 5% complete also needs to work with every other stone other than it being power for all modes.
+			else
 			{
 				item.damage = 40;
 				item.noMelee = true;
@@ -119,10 +149,49 @@ namespace EndgameMod.Items.InfinityGauntlet
 				item.useAnimation = 20;
 				item.shoot = ProjectileType<ExampleLaser>();
 				item.value = Item.sellPrice(silver: 3);
-
 			}
-			return base.CanUseItem(player);
+			return true;
 		}
+
+		public override void ModifyTooltips(List<TooltipLine> tooltips)
+		{
+			string baseTooltip = "The Power of the Infinity Stones in One Gauntlet \n";
+
+			string text = "";
+			switch (GauntletMode)
+			{
+				case 0:
+					text = "Power: Your Power? its infinite.";
+					break;
+				case 1:
+					text = "Space: All that roams in Space is yours All that roams in Space is yours";
+					break;
+				case 2:
+					text = "Reality: Reality is yours reshape it however you want";
+					break;
+				case 3:
+					text = "Soul: A Soul For a Soul";
+					break;
+				case 4:
+					text = "Time: The Future? The Past? The Current? You have control over all";
+					break;
+				case 5:
+					text = "Mind: Your Knowledge knows no limits";
+					break;
+			}
+			foreach (TooltipLine line2 in tooltips)
+			{
+				if (line2.mod == "Terraria" && line2.Name.StartsWith("Tooltip"))
+				{
+					line2.text = baseTooltip + text;
+				}
+			}
+		}
+
+
+
+
+
 
 
 
@@ -146,18 +215,25 @@ namespace EndgameMod.Items.InfinityGauntlet
 			}
 		}
 
+
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) // also unnecessary spaghetti
 		{
-			// Fix the speedX and Y to point them horizontally.
-			speedX = new Vector2(speedX, speedY).Length() * (speedX > 0 ? 1 : -1);
-			speedY = 0;
-			// Add random Rotation
-			Vector2 speed = new Vector2(speedX, speedY);
-			speed = speed.RotatedByRandom(MathHelper.ToRadians(30));
-			// Change the damage since it is based off the weapons damage and is too high
-			damage = (int)(damage * .1f);
+			Vector2 speed = new Vector2(new Vector2(speedX, speedY).Length() * (speedX > 0 ? 1 : -1), 0);
+			// why, what is this for
+			//speed.RotatedByRandom(MathHelper.ToRadians(30));
 			speedX = speed.X;
 			speedY = speed.Y;
+			damage = (int)(damage * .3f);
+			// // Fix the speedX and Y to point them horizontally.
+			// speedX = new Vector2(speedX, speedY).Length() * (speedX > 0 ? 1 : -1);
+			// speedY = 0;
+			// // Add random Rotation
+			// Vector2 speed = new Vector2(speedX, speedY);
+			// speed = speed.RotatedByRandom(MathHelper.ToRadians(30));
+			// // Change the damage since it is based off the weapons damage and is too high
+			// speedX = speed.X;
+			// speedY = speed.Y;
 			return true;
 		}
 	}
