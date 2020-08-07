@@ -164,7 +164,7 @@ namespace EndgameMod.Items.InfinityGauntlet
 					text = "Power: Your Power? its infinite.";
 					break;
 				case 1:
-					text = "Space: All that roams in Space is yours All that roams in Space is yours";
+					text = "Space: All that roams in Space is yours ";
 					break;
 				case 2:
 					text = "Reality: Reality is yours reshape it however you want";
