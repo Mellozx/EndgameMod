@@ -21,3 +21,5 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+
+*.bat
