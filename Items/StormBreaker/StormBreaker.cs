@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace EndgameMod.Items.StormBreaker
 {
@@ -50,20 +51,21 @@ namespace EndgameMod.Items.StormBreaker
 
 
         public override bool CanUseItem(Player player) 
-        {
+            => player.ownedProjectileCounts[ProjectileType<StormBreakerProj>()] < 3;
+        // {
+        // 
+		// 	{
+        //         if (player.ownedProjectileCounts[mod.ProjectileType("StormBreakerProj")] >= 3)
+        //         {
+        //             return false;
+        //         }
+        //     }
+		// 	return true;
+		// }
 
-			{
-                if (player.ownedProjectileCounts[mod.ProjectileType("StormBreakerProj")] >= 3)
-                {
-                    return false;
-                }
-            }
-			return true;
-		}
 
-
-
-public override void AddRecipes() // just a test recipe *not final*
+        
+        public override void AddRecipes() // just a test recipe *not final*
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HallowedBar, 25);
@@ -73,3 +75,4 @@ public override void AddRecipes() // just a test recipe *not final*
         }
     }
 }
+        
