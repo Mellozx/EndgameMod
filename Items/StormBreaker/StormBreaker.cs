@@ -23,7 +23,7 @@ namespace EndgameMod.Items.StormBreaker
 
         public override void SetDefaults()
         {
-            item.width = 38;  
+            item.width = 38;
             item.height = 38;
 
             item.damage = 88;
@@ -35,7 +35,7 @@ namespace EndgameMod.Items.StormBreaker
 
             item.useAnimation = 14;
             item.useTime = 14;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
             item.value = Item.sellPrice(0, 10, 0, 0);
@@ -45,26 +45,26 @@ namespace EndgameMod.Items.StormBreaker
             item.shootSpeed = 13f;
         }
 
-        public override bool AltFunctionUse(Player player) => true; // basically means you can use the item both left click and right clicl.
+        public override bool AltFunctionUse(Player player) => true; // basically means you can use the item both left click and right click.
 
 
 
 
-        public override bool CanUseItem(Player player) 
-            => player.ownedProjectileCounts[ProjectileType<StormBreakerProj>()] < 3;
+        public override bool CanUseItem(Player player)
+            => player.ownedProjectileCounts[ProjectileType<StormBreakerProj>()] < 1;
         // {
         // 
-		// 	{
-        //         if (player.ownedProjectileCounts[mod.ProjectileType("StormBreakerProj")] >= 3)
+        // 	{
+        //         if (player.ownedProjectileCounts[mod.ProjectileType("StormBreakerProj")] >= 1)
         //         {
         //             return false;
         //         }
         //     }
-		// 	return true;
-		// }
+        // 	return true;
+        // }
 
 
-        
+
         public override void AddRecipes() // just a test recipe *not final*
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -75,4 +75,3 @@ namespace EndgameMod.Items.StormBreaker
         }
     }
 }
-        
