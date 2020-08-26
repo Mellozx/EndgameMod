@@ -15,13 +15,13 @@ namespace EndgameMod.Projectiles.CaptainAmerica
 		// Fix Sprite Sizing Issues
 		// Proper Bounce.
 
-		public override string Texture => "EndgameMod/Projectiles/CaptainAmerica/CaptainAmericaThrow";
+		public override string Texture => "EndgameMod/Projectiles/CaptainAmerica/CaptainAmericaShieldProjectile";
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Captain America's Shield");
 
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
@@ -31,14 +31,18 @@ namespace EndgameMod.Projectiles.CaptainAmerica
 
 			projectile.penetrate = 10;
 
-			projectile.width = 64;
-			projectile.height = 16;
+			projectile.width = 4;
+			projectile.height = 4;
+
+			drawOffsetX = -30;
+			drawOriginOffsetY = -4;
 		}
 
 		public override bool? CanCutTiles() => true;
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
+			Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
 			bounces++;
 			if (bounces > 3) { projectile.Kill(); }
 
@@ -54,17 +58,28 @@ namespace EndgameMod.Projectiles.CaptainAmerica
 			
 			// Animation, ~~idk if this would work or not.~~ somehow this works.
 			if ((projectile.frameCounter = ++projectile.frameCounter % 4) == 0)
-			{ projectile.frame = ++projectile.frame % 3; }
+			{ projectile.frame = ++projectile.frame % Main.projFrames[projectile.type]; }
 
 			projectile.velocity.Y += 0.1f;
 			projectile.direction = projectile.spriteDirection = projectile.velocity.X > 0f ? 1 : -1;
 			projectile.rotation = projectile.velocity.ToRotation();
-			if (projectile.rotation < -Math.PI / 2 || projectile.rotation > Math.PI / 2) projectile.rotation += (float)Math.PI;
-			
+			if (projectile.spriteDirection == -1) projectile.rotation += (float)Math.PI;
+
+			// Hitboxes, funn.
+			if (projectile.spriteDirection == 1)
+			{
+				drawOffsetX = -30;
+				drawOriginOffsetX = 14;
+			}
+			else
+			{
+				drawOffsetX = -2;
+				drawOriginOffsetX = -14;
+			}
 
 			// Kill projectile if far from player.
 			float projDistanceFromPlayer = (projectile.position - Main.player[projectile.owner].position).Length();
-			if (projDistanceFromPlayer > 120 * 16 || projectile.ai[0] > 180f) { projectile.Kill(); }
+			if (projDistanceFromPlayer > 120 * 16 || projectile.ai[0] > 5 * 60f) { projectile.Kill(); }
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
