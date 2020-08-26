@@ -23,7 +23,7 @@ namespace EndgameMod.Items.InfinityGauntlet
 		public bool IsAtMaxCharge => Charge == CHARGETIME;
 
 
-		public override string Texture => "EndgameMod/Items/InfinityGauntlet/ExampleLaser";
+		public override string Texture => "EndgameMod/Items/InfinityGauntlet/PowerStoneBeam";
 		
 		public override bool ShouldUpdatePosition() => false;
 		public override void SetStaticDefaults() =>	DisplayName.SetDefault("Power Stone Beam");
